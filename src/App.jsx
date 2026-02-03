@@ -1,22 +1,36 @@
-function User(props) {
-  return (
-    <div>
-      <h3>User name : {props.name}</h3>
-      <p>User age : {props.age}</p>
-    </div>
-  );
-}
+import { useState } from "react";
 
 function App() {
-  return (
-    <div>
-      <ul>User List</ul>
-      <li>
-        <User name="Anurag Pal" age={38} />
-        <User name="Pragya Pal" age={29} />
-      </li>
-    </div>
-  );
+    const [count, setCount] = useState(0);
+
+    return (
+        <div>
+            <h1>Counter App</h1>
+
+            <h2 style={{ color : count > 5 ? "red" : "green" }}>{count}</h2>
+
+            <button onClick={() => {
+                if(count < 10){
+                    setCount(count + 1)
+                }
+            }}>
+                Increase
+            </button>
+
+            <button onClick={() => setCount(count - 1)}>
+                Decrease
+            </button>
+
+
+            <button onClick={() => setCount(count + 5)}>
+                +5
+            </button>
+
+            <button onClick={() => setCount(0)}>
+                Reset
+            </button>
+        </div>
+    )
 }
 
 export default App;
