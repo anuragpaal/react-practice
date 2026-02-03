@@ -1,36 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
-    const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0);
 
-    return (
-        <div>
-            <h1>Counter App</h1>
+  useEffect(() => {
+    console.log("Use Effect Loaded");
+    document.title = "Count: " + count; 
+  }, [count]);
 
-            <h2 style={{ color : count > 5 ? "red" : "green" }}>{count}</h2>
+  return (
+    <div>
+      <h1>UseEffect Demo</h1>
+      <h2>{count}</h2>
 
-            <button onClick={() => {
-                if(count < 10){
-                    setCount(count + 1)
-                }
-            }}>
-                Increase
-            </button>
-
-            <button onClick={() => setCount(count - 1)}>
-                Decrease
-            </button>
-
-
-            <button onClick={() => setCount(count + 5)}>
-                +5
-            </button>
-
-            <button onClick={() => setCount(0)}>
-                Reset
-            </button>
-        </div>
-    )
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </div>
+  );
 }
 
 export default App;
