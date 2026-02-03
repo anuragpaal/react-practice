@@ -12,8 +12,8 @@ function App() {
     <div>
       <ul>User List</ul>
       <li>
-        <User name="Anurag" age={38} />
-        <User name="Pragya" age={29} />
+        <User name="Anurag Pal" age={38} />
+        <User name="Pragya Pal" age={29} />
       </li>
     </div>
   );
