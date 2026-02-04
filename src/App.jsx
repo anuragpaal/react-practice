@@ -1,31 +1,47 @@
-import { useEffect,useState } from "react";
+import { useState } from "react";
 
 
 function App() {
-    const [users,setUsers] = useState([]);
+  const [name,setName] = useState("");
+  const [age,setAge] = useState("");
 
-    useEffect(() => {
-        fetch("https://jsonplaceholder.typicode.com/users")
-        .then(res => res.json())
-        .then(data => setUsers(data));
-    },[])
+  const handleReset = () => {
+    setName("")
+    setAge("")
+  }
 
-    return (
-      <div>
-        <h1>Users List</h1>
+  return (
+    <div>
+      <h1>Deom Form</h1>
 
-        {users.length === 0 ? 
-        (<p>Loading ...</p>) :
+      <input
+        type="text"
+        placeholder="Enter Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
 
-        (users.map(user => (
-          <div key={user.id} style={{border : "1px solid black", margin: "10px", padding : "10px"}}>
-            <h3>{user.name}</h3>
-            <p>{user.email}</p>
-          </div>
-        )))
-      }
-      </div>
-    )
+      <h2>Hello {name}</h2>
+
+      <input 
+        type="text"
+        placeholder="Enter Age"
+        value={age}
+        onChange={(e) => setAge(e.target.value)}
+      />
+
+      <h4>Age : {age}</h4>
+
+      <button onClick={handleReset}>
+        Reset
+      </button>
+
+      <button onClick={() => alert(name)}>
+        Submit
+      </button>
+    </div>
+  )
 }
+
 
 export default App;
