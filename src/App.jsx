@@ -1,21 +1,36 @@
-import { useState, useEffect } from "react";
+import { useState,useEffect } from "react";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [count,setCount] = useState(0);
+  const [running,setRunning] = useState(true);
 
   useEffect(() => {
-    console.log("Use Effect Loaded");
-    document.title = "Count: " + count; 
-  }, [count]);
+    if(!running) return;
+
+    const timer = setInterval(() => {
+      setCount(c => c + 1);
+    },1000)
+
+    return () => clearInterval(timer);
+  },[running])
 
   return (
     <div>
-      <h1>UseEffect Demo</h1>
-      <h2>{count}</h2>
+      <h1>Timer : {count}</h1>
 
-      <button onClick={() => setCount(count + 1)}>Increase</button>
+      <button onClick={() => setRunning(true)}>
+        Start
+      </button>
+
+      <button onClick={() => setRunning(false)}> 
+          Stop
+      </button>
+
+      <button onClick={() => setCount(0)}>
+          Reset
+      </button>
     </div>
-  );
+  )
 }
 
 export default App;
