@@ -1,55 +1,38 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 
 function App() {
-  const [users, setUsers] = useState([]);
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [count,setCount] = useState(0);
+  const [text,setText] = useState("");
 
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data);
-        setLoading(false);
-      });
-  }, []);
+  const calulation = useMemo(() => {
+    console.log("..Calculating");
 
-  const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(search.toLowerCase()),
-  );
+    let total = 0;
+    for(let i = 0; i < 1e8; i++) {
+      total += i;
+    }
+
+    return count * 2;
+  },[count])
 
   return (
     <div>
-      <h1>User Search App</h1>
+      <h1>{calulation}</h1>
 
-      {loading ? <p>Loading...</p> : ""}
+      <button onClick={() => setCount(count + 1)}>
+        Increase
+      </button>
 
-      <input
+      <br /> <br />
+
+      <input 
         type="text"
-        placeholder="Search User By Name"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Text here.."
+        value={text}
+        onChange={(e) => setText(e.target.value)}
       />
-
-      {filteredUsers.length === 0 ? (
-        <p>No data found</p>
-      ) : (
-        filteredUsers.map((user) => (
-          <div
-            key={user.id}
-            style={{
-              border: "1px solid black",
-              margin: "10px",
-              padding: "10px",
-            }}
-          >
-            <h3>{user.name}</h3>
-            <p>{user.email}</p>
-          </div>
-        ))
-      )}
     </div>
-  );
+  )
 }
 
 export default App;
