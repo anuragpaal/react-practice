@@ -1,47 +1,55 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 
 function App() {
-  const [name,setName] = useState("");
-  const [age,setAge] = useState("");
+  const [users, setUsers] = useState([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const handleReset = () => {
-    setName("")
-    setAge("")
-  }
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+        setLoading(false);
+      });
+  }, []);
+
+  const filteredUsers = users.filter((user) =>
+    user.name.toLowerCase().includes(search.toLowerCase()),
+  );
 
   return (
     <div>
-      <h1>Deom Form</h1>
+      <h1>User Search App</h1>
+
+      {loading ? <p>Loading...</p> : ""}
 
       <input
         type="text"
-        placeholder="Enter Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        placeholder="Search User By Name"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
       />
 
-      <h2>Hello {name}</h2>
-
-      <input 
-        type="text"
-        placeholder="Enter Age"
-        value={age}
-        onChange={(e) => setAge(e.target.value)}
-      />
-
-      <h4>Age : {age}</h4>
-
-      <button onClick={handleReset}>
-        Reset
-      </button>
-
-      <button onClick={() => alert(name)}>
-        Submit
-      </button>
+      {filteredUsers.length === 0 ? (
+        <p>No data found</p>
+      ) : (
+        filteredUsers.map((user) => (
+          <div
+            key={user.id}
+            style={{
+              border: "1px solid black",
+              margin: "10px",
+              padding: "10px",
+            }}
+          >
+            <h3>{user.name}</h3>
+            <p>{user.email}</p>
+          </div>
+        ))
+      )}
     </div>
-  )
+  );
 }
-
 
 export default App;
