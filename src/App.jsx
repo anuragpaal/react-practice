@@ -1,36 +1,31 @@
-import { useState,useEffect } from "react";
+import { useEffect,useState } from "react";
+
 
 function App() {
-  const [count,setCount] = useState(0);
-  const [running,setRunning] = useState(true);
+    const [users,setUsers] = useState([]);
 
-  useEffect(() => {
-    if(!running) return;
+    useEffect(() => {
+        fetch("https://jsonplaceholder.typicode.com/users")
+        .then(res => res.json())
+        .then(data => setUsers(data));
+    },[])
 
-    const timer = setInterval(() => {
-      setCount(c => c + 1);
-    },1000)
+    return (
+      <div>
+        <h1>Users List</h1>
 
-    return () => clearInterval(timer);
-  },[running])
+        {users.length === 0 ? 
+        (<p>Loading ...</p>) :
 
-  return (
-    <div>
-      <h1>Timer : {count}</h1>
-
-      <button onClick={() => setRunning(true)}>
-        Start
-      </button>
-
-      <button onClick={() => setRunning(false)}> 
-          Stop
-      </button>
-
-      <button onClick={() => setCount(0)}>
-          Reset
-      </button>
-    </div>
-  )
+        (users.map(user => (
+          <div key={user.id} style={{border : "1px solid black", margin: "10px", padding : "10px"}}>
+            <h3>{user.name}</h3>
+            <p>{user.email}</p>
+          </div>
+        )))
+      }
+      </div>
+    )
 }
 
 export default App;
